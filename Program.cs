@@ -42,7 +42,6 @@ namespace Blog
             Console.WriteLine("How many last comments each user left:");
             // Expected result (format could be different, e.g. object serialized to JSON is ok):
             Console.WriteLine(JsonSerializer.Serialize(BlogService.NumberOfLastCommentsLeftByUser(context)));
-            context.Database.EnsureDeleted();
 
             Console.WriteLine("\n\n\n");
 
@@ -53,6 +52,7 @@ namespace Blog
             var contextForForamatedOutput = new MyDbContext(loggerFactoryWithoutLog);
             contextForForamatedOutput.Database.EnsureCreated();
             InitializeData(contextForForamatedOutput);
+
             Console.WriteLine("--- formated data output without logs ---");
             Console.WriteLine();
 
