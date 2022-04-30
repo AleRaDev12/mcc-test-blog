@@ -27,6 +27,7 @@ namespace Blog
 
 
             Console.WriteLine("--- raw data output ---");
+            Console.WriteLine();
 
             Console.WriteLine("How many comments each user left:");
             // Expected result (format could be different, e.g. object serialized to JSON is ok):
@@ -41,29 +42,37 @@ namespace Blog
             Console.WriteLine("How many last comments each user left:");
             // Expected result (format could be different, e.g. object serialized to JSON is ok):
             Console.WriteLine(JsonSerializer.Serialize(BlogService.NumberOfLastCommentsLeftByUser(context)));
-
+            context.Database.EnsureDeleted();
 
             Console.WriteLine("\n\n\n");
 
 
-            Console.WriteLine("--- formated data output ---");
+
+            var loggerFactoryWithoutLog = LoggerFactory.Create(builder => { });
+
+            var contextForForamatedOutput = new MyDbContext(loggerFactoryWithoutLog);
+            contextForForamatedOutput.Database.EnsureCreated();
+            InitializeData(contextForForamatedOutput);
+            Console.WriteLine("--- formated data output without logs ---");
+            Console.WriteLine();
+
 
             Console.WriteLine("How many comments each user left:");
-            Console.WriteLine(BlogService.NumberOfCommentsPerUserString(context));
+            Console.WriteLine(BlogService.NumberOfCommentsPerUserString(contextForForamatedOutput));
             // formated output:
             // Elena: 3
             // Ivan: 4
             // Petr: 2
 
             Console.WriteLine("Posts ordered by date of last comment. Result should include text of last comment:");
-            Console.WriteLine(BlogService.PostsOrderedByLastCommentDateString(context));
+            Console.WriteLine(BlogService.PostsOrderedByLastCommentDateString(contextForForamatedOutput));
             // formated output:
             // Post2: '2020-03-06', '4'
             // Post1: '2020-03-05', '8'
             // Post3: '2020-02-14', '9'
 
             Console.WriteLine("How many last comments each user left:");
-            Console.WriteLine(BlogService.NumberOfLastCommentsLeftByUserString(context));
+            Console.WriteLine(BlogService.NumberOfLastCommentsLeftByUserString(contextForForamatedOutput));
             // formated output:
             // Ivan: 2
             // Petr: 1
