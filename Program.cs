@@ -23,36 +23,50 @@ namespace Blog
             Console.WriteLine(JsonSerializer.Serialize(data));
 
 
+            Console.WriteLine("\n\n\n");
+
+
+            Console.WriteLine("--- raw data output ---");
+
             Console.WriteLine("How many comments each user left:");
-            //ToDo: write a query and dump the data to console
             // Expected result (format could be different, e.g. object serialized to JSON is ok):
-            // Ivan: 4
-            // Petr: 2
-            // Elena: 3
+            Console.WriteLine(JsonSerializer.Serialize(BlogService.NumberOfCommentsPerUser(context)));
+            Console.WriteLine();
 
             Console.WriteLine("Posts ordered by date of last comment. Result should include text of last comment:");
-            //ToDo: write a query and dump the data to console
             // Expected result (format could be different, e.g. object serialized to JSON is ok):
+            Console.WriteLine(JsonSerializer.Serialize(BlogService.PostsOrderedByLastCommentDate(context)));
+            Console.WriteLine();
+
+            Console.WriteLine("How many last comments each user left:");
+            // Expected result (format could be different, e.g. object serialized to JSON is ok):
+            Console.WriteLine(JsonSerializer.Serialize(BlogService.NumberOfLastCommentsLeftByUser(context)));
+
+
+            Console.WriteLine("\n\n\n");
+
+
+            Console.WriteLine("--- formated data output ---");
+
+            Console.WriteLine("How many comments each user left:");
+            Console.WriteLine(BlogService.NumberOfCommentsPerUserString(context));
+            // formated output:
+            // Elena: 3
+            // Ivan: 4
+            // Petr: 2
+
+            Console.WriteLine("Posts ordered by date of last comment. Result should include text of last comment:");
+            Console.WriteLine(BlogService.PostsOrderedByLastCommentDateString(context));
+            // formated output:
             // Post2: '2020-03-06', '4'
             // Post1: '2020-03-05', '8'
             // Post3: '2020-02-14', '9'
 
-
             Console.WriteLine("How many last comments each user left:");
-            // 'last comment' is the latest Comment in each Post
-            //ToDo: write a query and dump the data to console
-            // Expected result (format could be different, e.g. object serialized to JSON is ok):
+            Console.WriteLine(BlogService.NumberOfLastCommentsLeftByUserString(context));
+            // formated output:
             // Ivan: 2
             // Petr: 1
-
-
-            // Console.WriteLine(
-            //     JsonSerializer.Serialize(BlogService.NumberOfCommentsPerUser(context)));
-            // Console.WriteLine(
-            //     JsonSerializer.Serialize(BlogService.PostsOrderedByLastCommentDate(context)));
-            // Console.WriteLine(
-            //     JsonSerializer.Serialize(BlogService.NumberOfLastCommentsLeftByUser(context)));
-
         }
 
         private static void InitializeData(MyDbContext context)
